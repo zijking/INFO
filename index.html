@@ -1,18 +1,395 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <title>Візитка Andrii</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Відділ цифрового розвитку</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=PT+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
     <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f0f0f0; }
-        .card { background: white; padding: 2rem; border-radius: 15px; shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        :root {
+            --olive:    #4a5230;
+            --olive-d:  #2e3319;
+            --olive-l:  #6b7545;
+            --gold:     #c9a84c;
+            --gold-l:   #e8c96a;
+            --sand:     #f2ead8;
+            --sand-d:   #ddd5bf;
+            --text:     #1a1c12;
+            --muted:    #6b6a5a;
+            --white:    #ffffff;
+            --radius:   10px;
+            --shadow:   0 4px 24px rgba(0,0,0,0.22);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'PT Sans', sans-serif;
+            background: var(--olive-d);
+            background-image:
+                    repeating-linear-gradient(
+                            45deg,
+                            transparent,
+                            transparent 18px,
+                            rgba(255,255,255,0.015) 18px,
+                            rgba(255,255,255,0.015) 36px
+                    );
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px 12px 40px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 480px;
+            background: var(--sand);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            animation: fadeUp 0.6s ease both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── HEADER ── */
+        .card-header {
+            background: linear-gradient(160deg, var(--olive) 60%, var(--olive-l));
+            padding: 28px 20px 22px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            position: relative;
+        }
+
+        .card-header::after {
+            content: '';
+            display: block;
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-l), var(--gold));
+        }
+
+        /* chevron / patch */
+        .chevron-wrap {
+            width: 110px;
+            height: 140px;           /* portrait rectangle — short side = 110 */
+            border-radius: 6px;
+            overflow: hidden;
+            border: 3px solid var(--gold);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            background: var(--olive-d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .chevron-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .chevron-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: var(--gold);
+            opacity: 0.7;
+            font-size: 11px;
+            text-align: center;
+            padding: 6px;
+            font-family: 'PT Sans', sans-serif;
+        }
+
+        .chevron-placeholder svg {
+            width: 36px; height: 36px;
+            fill: none; stroke: var(--gold); stroke-width: 1.5;
+        }
+
+        .header-text {
+            text-align: center;
+        }
+
+        .unit-title {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: clamp(15px, 4.2vw, 19px);
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            line-height: 1.3;
+        }
+
+        .unit-subtitle {
+            margin-top: 6px;
+            font-size: 11.5px;
+            color: var(--sand-d);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        /* ── DEPT PHONES ── */
+        .dept-phones {
+            background: var(--olive-d);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .dept-phone-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dept-phone-label {
+            font-size: 9.5px;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 2px;
+        }
+
+        .dept-phone-num {
+            font-family: 'Oswald', sans-serif;
+            font-size: 15px;
+            color: var(--white);
+            letter-spacing: 0.04em;
+        }
+
+        /* ── STAFF LIST ── */
+        .staff-list {
+            padding: 16px 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .staff-card {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 13px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            border-left: 4px solid var(--olive-l);
+            animation: fadeUp 0.5s ease both;
+        }
+
+        .staff-card:first-child              { animation-delay: 0.08s; border-left-color: var(--gold); }
+        .staff-card:nth-child(2)             { animation-delay: 0.14s; }
+        .staff-card:nth-child(3)             { animation-delay: 0.20s; }
+        .staff-card:nth-child(4)             { animation-delay: 0.26s; }
+        .staff-card:nth-child(5)             { animation-delay: 0.32s; }
+
+        .staff-info { flex: 1; min-width: 0; }
+
+        .staff-role {
+            font-size: 10.5px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            margin-bottom: 3px;
+        }
+
+        .staff-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .staff-rank {
+            font-size: 12px;
+            color: var(--olive-l);
+            font-style: italic;
+            margin-top: 2px;
+        }
+
+        /* call button */
+        .call-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: var(--olive);
+            color: var(--white);
+            text-decoration: none;
+            flex-shrink: 0;
+            transition: background 0.2s, transform 0.15s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        }
+
+        .call-btn:active {
+            background: var(--gold);
+            transform: scale(0.93);
+        }
+
+        .call-btn svg {
+            width: 20px; height: 20px;
+            fill: currentColor;
+        }
+
+        /* ── FOOTER ── */
+        .card-footer {
+            background: var(--olive-d);
+            padding: 12px 16px;
+            text-align: center;
+            font-size: 10.5px;
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 0.06em;
+        }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>Андрій</h1>
-        <p>Software Developer</p>
-        <a href="mailto:example@email.com">Зв'язатися</a>
+
+<div class="card">
+
+    <!-- ══ HEADER ══ -->
+    <div class="card-header">
+
+        <!-- Шеврон: покласти файл images/chevron.png або .jpg -->
+        <div class="chevron-wrap">
+            <img src="images/960px-KSP_ZSU_2.jpeg" alt="Шеврон підрозділу"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="chevron-placeholder" style="display:none;">
+                <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="6" y="6" width="36" height="36" rx="4"/>
+                    <path d="M16 24 l8-8 l8 8"/>
+                    <line x1="24" y1="16" x2="24" y2="32"/>
+                </svg>
+                <span>Шеврон<br/>підрозділу<br/><em>images/960px-KSP_ZSU_2.jpeg</em></span>
+            </div>
+        </div>
+
+        <div class="header-text">
+            <div class="unit-title">Відділ цифрового розвитку,<br>цифрових трансформацій<br>і цифровізації</div>
+            <div class="unit-subtitle">штабу Командування Сил підтримки ЗСУ</div>
+        </div>
+
     </div>
+
+    <!-- ══ ТЕЛЕФОНИ ВІДДІЛУ ══ -->
+    <div class="dept-phones">
+        <div class="dept-phone-item">
+            <span class="dept-phone-label">Фарлеп</span>
+            <span class="dept-phone-num">(62)&nbsp;300-37</span>
+        </div>
+        <div class="dept-phone-item">
+            <span class="dept-phone-label">МОСІ</span>
+            <span class="dept-phone-num">415-55</span>
+        </div>
+    </div>
+
+    <!-- ══ СПИСОК ОСОБОВОГО СКЛАДУ ══ -->
+    <div class="staff-list">
+
+        <!-- Начальник відділу -->
+        <div class="staff-card">
+            <div class="staff-info">
+                <div class="staff-role">Начальник відділу</div>
+                <div class="staff-name">ЛЕГЕЗА Олександр</div>
+                <div class="staff-rank">підполковник</div>
+            </div>
+            <a class="call-btn" href="tel:+380504625218" title="+380(50)462-52-18">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2
+                   1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1
+                   C9.6 21 3 14.4 3 6.5c0-.6.4-1 1-1H7.5c.6 0 1 .4 1 1
+                   0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+                </svg>
+            </a>
+        </div>
+
+        <!-- Головний спеціаліст -->
+        <div class="staff-card">
+            <div class="staff-info">
+                <div class="staff-role">Головний спеціаліст відділу</div>
+                <div class="staff-name">ПУСТОВГАР Тимофій</div>
+            </div>
+            <a class="call-btn" href="tel:+380681564448" title="+380(68)156-44-48">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2
+                   1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1
+                   C9.6 21 3 14.4 3 6.5c0-.6.4-1 1-1H7.5c.6 0 1 .4 1 1
+                   0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+                </svg>
+            </a>
+        </div>
+
+        <!-- Старший офіцер -->
+        <div class="staff-card">
+            <div class="staff-info">
+                <div class="staff-role">Старший офіцер відділу</div>
+                <div class="staff-name">СОЛОД Руслан</div>
+            </div>
+            <a class="call-btn" href="tel:+380732611006" title="+380(73)261-10-06">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2
+                   1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1
+                   C9.6 21 3 14.4 3 6.5c0-.6.4-1 1-1H7.5c.6 0 1 .4 1 1
+                   0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+                </svg>
+            </a>
+        </div>
+
+        <!-- Офіцер 1 -->
+        <div class="staff-card">
+            <div class="staff-info">
+                <div class="staff-role">Офіцер відділу</div>
+                <div class="staff-name">ПАНАСЮК Андрій</div>
+            </div>
+            <a class="call-btn" href="tel:+380503373155" title="+380(50)337-31-55">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2
+                   1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1
+                   C9.6 21 3 14.4 3 6.5c0-.6.4-1 1-1H7.5c.6 0 1 .4 1 1
+                   0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+                </svg>
+            </a>
+        </div>
+
+        <!-- Офіцер 2 -->
+        <div class="staff-card">
+            <div class="staff-info">
+                <div class="staff-role">Офіцер відділу</div>
+                <div class="staff-name">БІЛЕНЬКИЙ Віталій</div>
+            </div>
+            <a class="call-btn" href="tel:+380980826766" title="+380(98)082-67-66">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2
+                   1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1
+                   C9.6 21 3 14.4 3 6.5c0-.6.4-1 1-1H7.5c.6 0 1 .4 1 1
+                   0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+                </svg>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="card-footer">© Відділ цифрового розвитку, цифрових трансформацій і цифровізації</div>
+</div>
+
 </body>
 </html>
